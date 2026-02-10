@@ -27,6 +27,23 @@ if (result.type === 'err') {
   process.exit(1);
 }
 
+const output = result.output;
+
+// info 오버라이드
+output.info = {
+  title: 'Axly API Documentation',
+  description: inputs.map(i => `- ${i.oas.info.title}`).join('\n'),
+  version: 'v1.0.0'
+};
+
+// servers 병합 (중복 URL 제거)
+const seenUrls = new Set();
+output.servers = inputs.flatMap(i => i.oas.servers || []).filter(s => {
+  if (seenUrls.has(s.url)) return false;
+  seenUrls.add(s.url);
+  return true;
+});
+
 fs.mkdirSync(path.dirname(OUTPUT), { recursive: true });
-fs.writeFileSync(OUTPUT, JSON.stringify(result.output, null, 2));
+fs.writeFileSync(OUTPUT, JSON.stringify(output, null, 2));
 console.log(`Merged spec written to: ${OUTPUT}`);
