@@ -38,9 +38,6 @@ jobs:
           --skip-rule no-server-example.com
           --skip-rule operation-4xx-response
 
-      - name: Prepare Pages
-        run: cp static/index.html dist/
-
       - name: Upload merged spec as artifact
         uses: actions/upload-artifact@v4
         with:
