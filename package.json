@@ -1,0 +1,10 @@
+{
+  "name": "api-docs-repo",
+  "private": true,
+  "scripts": {
+    "merge": "node scripts/merge.js"
+  },
+  "devDependencies": {
+    "openapi-merge": "^1.3.3"
+  }
+}
