@@ -17,6 +17,7 @@ if (specFiles.length === 0) {
 console.log(`Found ${specFiles.length} spec(s): ${specFiles.join(', ')}`);
 
 const inputs = specFiles.map(f => ({
+  file: f,
   oas: JSON.parse(fs.readFileSync(path.join(SPECS_DIR, f), 'utf-8'))
 }));
 
@@ -44,6 +45,26 @@ output.servers = inputs.flatMap(i => i.oas.servers || []).filter(s => {
   return true;
 });
 
-fs.mkdirSync(path.dirname(OUTPUT), { recursive: true });
+const DIST_DIR = path.dirname(OUTPUT);
+const DIST_SPECS_DIR = path.join(DIST_DIR, 'specs');
+fs.mkdirSync(DIST_SPECS_DIR, { recursive: true });
+
+// 통합 문서 출력
 fs.writeFileSync(OUTPUT, JSON.stringify(output, null, 2));
 console.log(`Merged spec written to: ${OUTPUT}`);
+
+// 개별 스펙 복사
+for (const f of specFiles) {
+  fs.copyFileSync(path.join(SPECS_DIR, f), path.join(DIST_SPECS_DIR, f));
+}
+
+// Swagger UI URL 목록 생성
+const urls = [
+  { url: './openapi.json', name: 'All APIs' },
+  ...specFiles.map(f => ({
+    url: `./specs/${f}`,
+    name: inputs.find(i => i.file === f).oas.info.title
+  }))
+];
+fs.writeFileSync(path.join(DIST_DIR, 'urls.json'), JSON.stringify(urls, null, 2));
+console.log(`Spec URLs written to: dist/urls.json`);
