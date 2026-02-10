@@ -58,7 +58,7 @@ for (const f of specFiles) {
   fs.copyFileSync(path.join(SPECS_DIR, f), path.join(DIST_SPECS_DIR, f));
 }
 
-// Swagger UI URL 목록 생성
+// Swagger UI index.html 생성
 const urls = [
   { url: './openapi.json', name: 'All APIs' },
   ...specFiles.map(f => ({
@@ -66,5 +66,29 @@ const urls = [
     name: inputs.find(i => i.file === f).oas.info.title
   }))
 ];
-fs.writeFileSync(path.join(DIST_DIR, 'urls.json'), JSON.stringify(urls, null, 2));
-console.log(`Spec URLs written to: dist/urls.json`);
+
+const html = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>API Documentation</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
+  <script>
+    SwaggerUIBundle({
+      urls: ${JSON.stringify(urls)},
+      "urls.primaryName": "All APIs",
+      dom_id: '#swagger-ui',
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+      layout: 'StandaloneLayout'
+    });
+  </script>
+</body>
+</html>`;
+
+fs.writeFileSync(path.join(DIST_DIR, 'index.html'), html);
+console.log(`Swagger UI written to: dist/index.html`);
