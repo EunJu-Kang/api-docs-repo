@@ -28,7 +28,7 @@ jobs:
         run: npm run merge
 
       - name: Validate merged spec
-        run: npx --yes @redocly/cli lint dist/openapi.json
+        run: npx --yes @redocly/cli lint dist/openapi.json --config .redocly.yaml
 
       - name: Upload merged spec as artifact
         uses: actions/upload-artifact@v4
