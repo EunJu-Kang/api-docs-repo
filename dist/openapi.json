@@ -1,0 +1,810 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Axly API Documentation",
+    "description": "- 주문 관리 API\n- OpenAPI Test API",
+    "version": "v1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8081",
+      "description": "Generated server url"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Order",
+      "description": "주문 관리 API"
+    },
+    {
+      "name": "Post",
+      "description": "게시글 CRUD API"
+    },
+    {
+      "name": "User",
+      "description": "사용자 CRUD API"
+    }
+  ],
+  "paths": {
+    "/api/orders/{id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "주문 단건 조회",
+        "description": "ID로 주문을 조회합니다",
+        "operationId": "getOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "주문 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "주문 없음",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "주문 수정",
+        "description": "기존 주문을 수정합니다 (부분 수정 지원)",
+        "operationId": "updateOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "주문 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "수정 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "주문 없음",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "주문 삭제",
+        "description": "주문을 삭제합니다",
+        "operationId": "deleteOrder",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "주문 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "삭제 성공"
+          },
+          "404": {
+            "description": "주문 없음"
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "주문 목록 조회",
+        "description": "전체 주문 목록을 조회합니다",
+        "operationId": "getAllOrders",
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OrderResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "summary": "주문 생성",
+        "description": "새로운 주문을 생성합니다",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "주문 생성 성공",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "잘못된 요청",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "사용자 단건 조회",
+        "description": "ID로 사용자를 조회합니다.",
+        "operationId": "getById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "사용자 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "사용자를 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "사용자 수정",
+        "description": "기존 사용자 정보를 수정합니다.",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "사용자 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "수정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "사용자를 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "사용자 삭제",
+        "description": "사용자를 삭제합니다.",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "사용자 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "삭제 성공"
+          },
+          "404": {
+            "description": "사용자를 찾을 수 없음"
+          }
+        }
+      }
+    },
+    "/api/posts/{id}": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "게시글 단건 조회",
+        "description": "ID로 게시글을 조회합니다.",
+        "operationId": "getById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "게시글 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "게시글을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "게시글 수정",
+        "description": "기존 게시글을 수정합니다.",
+        "operationId": "update_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "게시글 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "수정 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "게시글을 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "게시글 삭제",
+        "description": "게시글을 삭제합니다.",
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "게시글 ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "삭제 성공"
+          },
+          "404": {
+            "description": "게시글을 찾을 수 없음"
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "사용자 전체 조회",
+        "description": "모든 사용자 목록을 조회합니다.",
+        "operationId": "getAll",
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "사용자 생성",
+        "description": "새 사용자를 생성합니다.",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts": {
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "게시글 전체 조회",
+        "description": "모든 게시글 목록을 조회합니다.",
+        "operationId": "getAll_1",
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Post"
+        ],
+        "summary": "게시글 생성",
+        "description": "새 게시글을 생성합니다.",
+        "operationId": "create_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrderUpdateRequest": {
+        "type": "object",
+        "description": "주문 수정 요청 (부분 수정 지원)",
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "description": "주문자명",
+            "example": "김철수"
+          },
+          "productName": {
+            "type": "string",
+            "description": "상품명",
+            "example": "태블릿"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "수량",
+            "example": 3,
+            "minimum": 1
+          },
+          "price": {
+            "type": "number",
+            "description": "가격",
+            "example": 800000,
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "description": "주문 상태",
+            "enum": [
+              "PENDING",
+              "CONFIRMED",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ],
+            "example": "CONFIRMED"
+          }
+        }
+      },
+      "OrderResponse": {
+        "type": "object",
+        "description": "주문 응답",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "주문 ID",
+            "example": 1
+          },
+          "orderNumber": {
+            "type": "string",
+            "description": "주문번호",
+            "example": "ORD-20260210-00001"
+          },
+          "customerName": {
+            "type": "string",
+            "description": "주문자명",
+            "example": "홍길동"
+          },
+          "productName": {
+            "type": "string",
+            "description": "상품명",
+            "example": "노트북"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "수량",
+            "example": 2
+          },
+          "price": {
+            "type": "number",
+            "description": "가격",
+            "example": 1500000
+          },
+          "status": {
+            "type": "string",
+            "description": "주문 상태",
+            "enum": [
+              "PENDING",
+              "CONFIRMED",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ],
+            "example": "PENDING"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "주문 생성일시"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "주문 수정일시"
+          }
+        }
+      },
+      "OrderCreateRequest": {
+        "type": "object",
+        "description": "주문 생성 요청",
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "description": "주문자명",
+            "example": "홍길동",
+            "minLength": 1
+          },
+          "productName": {
+            "type": "string",
+            "description": "상품명",
+            "example": "노트북",
+            "minLength": 1
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "description": "수량",
+            "example": 2,
+            "minimum": 1
+          },
+          "price": {
+            "type": "number",
+            "description": "가격",
+            "example": 1500000,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "price",
+          "quantity"
+        ]
+      },
+      "UserRequestDto": {
+        "type": "object",
+        "description": "사용자 생성/수정 요청",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "사용자 이름",
+            "example": "홍길동"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일",
+            "example": "hong@example.com"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "PostRequestDto": {
+        "type": "object",
+        "description": "게시글 생성/수정 요청",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "게시글 제목",
+            "example": "첫 번째 게시글"
+          },
+          "content": {
+            "type": "string",
+            "description": "게시글 내용",
+            "example": "게시글 내용입니다."
+          },
+          "author": {
+            "type": "string",
+            "description": "작성자",
+            "example": "홍길동"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
