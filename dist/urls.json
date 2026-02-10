@@ -1,0 +1,14 @@
+[
+  {
+    "url": "./openapi.json",
+    "name": "All APIs"
+  },
+  {
+    "url": "./specs/openapitest1-swagger.json",
+    "name": "주문 관리 API"
+  },
+  {
+    "url": "./specs/openapitest2-swagger.json",
+    "name": "OpenAPI Test API"
+  }
+]
