@@ -8,7 +8,7 @@
   "servers": [
     {
       "url": "http://localhost:8089",
-      "description": "Local server"
+      "description": "Generated server url"
     }
   ],
   "tags": [
@@ -22,59 +22,11 @@
     }
   ],
   "paths": {
-    "/api/v1/products": {
-      "get": {
-        "tags": ["v1 - 기본 상품 정보"],
-        "summary": "상품 전체 조회 (v1)",
-        "operationId": "getAllV1",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductResponseV1"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["v1 - 기본 상품 정보"],
-        "summary": "상품 생성 (v1)",
-        "operationId": "createV1",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProductRequestV1"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV1"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/products/{id}": {
       "get": {
-        "tags": ["v1 - 기본 상품 정보"],
-        "summary": "상품 단건 조회 (v1)",
+        "tags": [
+          "v1 - 기본 상품 정보"
+        ],
         "operationId": "getByIdV1",
         "parameters": [
           {
@@ -91,7 +43,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseV1"
                 }
@@ -101,8 +53,9 @@
         }
       },
       "put": {
-        "tags": ["v1 - 기본 상품 정보"],
-        "summary": "상품 수정 (v1)",
+        "tags": [
+          "v1 - 기본 상품 정보"
+        ],
         "operationId": "updateV1",
         "parameters": [
           {
@@ -116,20 +69,20 @@
           }
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ProductRequestV1"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseV1"
                 }
@@ -139,9 +92,10 @@
         }
       },
       "delete": {
-        "tags": ["v1 - 기본 상품 정보"],
-        "summary": "상품 삭제 (v1+)",
-        "operationId": "deleteV1",
+        "tags": [
+          "v1 - 기본 상품 정보"
+        ],
+        "operationId": "delete",
         "parameters": [
           {
             "name": "id",
@@ -154,26 +108,27 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "/api/v2/products": {
+    "/api/v1/products": {
       "get": {
-        "tags": ["v2 - 확장 상품 정보"],
-        "summary": "상품 전체 조회 (v2)",
-        "operationId": "getAllV2",
+        "tags": [
+          "v1 - 기본 상품 정보"
+        ],
+        "operationId": "getAllV1",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductResponseV2"
+                    "$ref": "#/components/schemas/ProductResponseV1"
                   }
                 }
               }
@@ -182,26 +137,27 @@
         }
       },
       "post": {
-        "tags": ["v2 - 확장 상품 정보"],
-        "summary": "상품 생성 (v2)",
-        "operationId": "createV2",
+        "tags": [
+          "v1 - 기본 상품 정보"
+        ],
+        "operationId": "createV1",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProductRequestV2"
+                "$ref": "#/components/schemas/ProductRequestV1"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
-          "201": {
-            "description": "Created",
+          "200": {
+            "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductResponseV2"
+                  "$ref": "#/components/schemas/ProductResponseV1"
                 }
               }
             }
@@ -211,8 +167,9 @@
     },
     "/api/v2/products/{id}": {
       "get": {
-        "tags": ["v2 - 확장 상품 정보"],
-        "summary": "상품 단건 조회 (v2)",
+        "tags": [
+          "v2 - 확장 상품 정보"
+        ],
         "operationId": "getByIdV2",
         "parameters": [
           {
@@ -229,7 +186,7 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseV2"
                 }
@@ -239,8 +196,9 @@
         }
       },
       "put": {
-        "tags": ["v2 - 확장 상품 정보"],
-        "summary": "상품 수정 (v2)",
+        "tags": [
+          "v2 - 확장 상품 정보"
+        ],
         "operationId": "updateV2",
         "parameters": [
           {
@@ -254,20 +212,20 @@
           }
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ProductRequestV2"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductResponseV2"
                 }
@@ -277,9 +235,10 @@
         }
       },
       "delete": {
-        "tags": ["v2 - 확장 상품 정보"],
-        "summary": "상품 삭제 (v2+)",
-        "operationId": "deleteV2",
+        "tags": [
+          "v2 - 확장 상품 정보"
+        ],
+        "operationId": "delete",
         "parameters": [
           {
             "name": "id",
@@ -292,8 +251,59 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v2/products": {
+      "get": {
+        "tags": [
+          "v2 - 확장 상품 정보"
+        ],
+        "operationId": "getAllV2",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductResponseV2"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "v2 - 확장 상품 정보"
+        ],
+        "operationId": "createV2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequestV2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseProductResponseV2"
+                }
+              }
+            }
           }
         }
       }
@@ -303,7 +313,6 @@
     "schemas": {
       "ProductRequestV1": {
         "type": "object",
-        "required": ["name", "price"],
         "properties": {
           "name": {
             "type": "string"
@@ -330,7 +339,6 @@
       },
       "ProductRequestV2": {
         "type": "object",
-        "required": ["name", "price"],
         "properties": {
           "name": {
             "type": "string"
@@ -372,6 +380,20 @@
           "stockQuantity": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "ApiResponseProductResponseV2": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ProductResponseV2"
           }
         }
       }
